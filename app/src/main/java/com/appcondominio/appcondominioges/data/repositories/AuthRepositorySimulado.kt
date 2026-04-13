@@ -1,0 +1,84 @@
+package com.appcondominio.appcondominioges.data.repositories
+
+import com.appcondominio.appcondominioges.domain.models.BotonMenu
+import com.appcondominio.appcondominioges.domain.models.Usuario
+import com.appcondominio.appcondominioges.domain.repositories.AuthRepository
+import kotlinx.coroutines.delay
+
+class AuthRepositorySimulado : AuthRepository {
+
+    override suspend fun login(rol: String, password: String): Result<Usuario> {
+        delay(1500) // Simular tiempo de carga
+
+        return when {
+            rol == "inquilino" && password == "123" -> {
+                Result.success(crearUsuarioInquilino())
+            }
+            rol == "propietario" && password == "123" -> {
+                Result.success(crearUsuarioPropietario())
+            }
+            rol == "presidente" && password == "123" -> {
+                Result.success(crearUsuarioPresidente())
+            }
+            else -> {
+                Result.failure(Exception("Email o contraseña incorrectos"))
+            }
+        }
+    }
+
+    private fun crearUsuarioInquilino(): Usuario {
+        return Usuario(
+            id = "1",
+            nombre = "Carlos Gómez",
+            email = "inquilino@test.com",
+            rol = "inquilino",
+            departamento = "301",
+            token = "token_falso_123",
+            menu = listOf(
+                BotonMenu("1", "Inicio", "home", "dashboard", 1),
+                BotonMenu("2", "Pagar Renta", "payment", "pagos", 2),
+                BotonMenu("3", "Anuncios", "campaign", "anuncios", 3),
+                BotonMenu("4", "Mi Perfil", "person", "perfil", 4)
+            )
+        )
+    }
+
+    private fun crearUsuarioPropietario(): Usuario {
+        return Usuario(
+            id = "2",
+            nombre = "María Rodríguez",
+            email = "propietario@test.com",
+            rol = "propietario",
+            departamento = "402",
+            token = "token_falso_456",
+            menu = listOf(
+                BotonMenu("1", "Inicio", "home", "dashboard", 1),
+                BotonMenu("2", "Mis Propiedades", "business", "propiedades", 2),
+                BotonMenu("3", "Cobros", "attach_money", "cobros", 3),
+                BotonMenu("4", "Reservas", "calendar", "reservas", 4),
+                BotonMenu("5", "Anuncios", "campaign", "anuncios", 5),
+                BotonMenu("6", "Mi Perfil", "person", "perfil", 6)
+            )
+        )
+    }
+
+    private fun crearUsuarioPresidente(): Usuario {
+        return Usuario(
+            id = "3",
+            nombre = "Juan Pérez",
+            email = "presidente@test.com",
+            rol = "presidente",
+            departamento = "PH",
+            token = "token_falso_789",
+            menu = listOf(
+                BotonMenu("1", "Dashboard", "home", "dashboard", 1),
+                BotonMenu("2", "Vecinos", "people", "vecinos", 2),
+                BotonMenu("3", "Anuncios", "campaign", "anuncios", 3),
+                BotonMenu("4", "Reservas", "calendar", "reservas", 4),
+                BotonMenu("5", "Reportes", "bar_chart", "reportes", 5),
+                BotonMenu("6", "Caja Chica", "account_balance", "caja", 6),
+                BotonMenu("7", "Mi Perfil", "person", "perfil", 7)
+            )
+        )
+    }
+}
