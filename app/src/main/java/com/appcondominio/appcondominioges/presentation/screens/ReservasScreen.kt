@@ -1,10 +1,9 @@
 package com.appcondominio.appcondominioges.presentation.screens
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -18,7 +17,7 @@ import com.appcondominio.appcondominioges.domain.models.Usuario
 
 
 @Composable
-fun DashboardScreen(usuario: Usuario = Usuario(
+fun ReservasScreen(usuario: Usuario = Usuario(
     id = "1",
     nombre = "Usuario",
     email = "correo@ejemplo.com",
@@ -37,41 +36,19 @@ fun DashboardScreen(usuario: Usuario = Usuario(
             .padding(16.dp)
     ) {
         Text(
-            text = "¡Bienvenido, ${usuario.nombre}!",
+            text = "Pantalla de Configuracion",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
 
         )
 
-        Text(
-            text = "Rol: ${usuario.rol.uppercase()}",
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.primary
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text("📊 Resumen", fontWeight = FontWeight.Bold, color = Color(0xFF1A237E)
-                )
-                Text("Departamento: ${usuario.departamento}", color = Color(0xFF1A237E))
-                Text("Email: ${usuario.email}", color = Color(0xFF1A237E))
-            }
-        }
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DashboardScreenPreview() {
-    DashboardScreen() // No da error porque ya tiene un valor por defecto arriba
+fun ReservasScreenPreview() {
+    ReservasScreen()
 }

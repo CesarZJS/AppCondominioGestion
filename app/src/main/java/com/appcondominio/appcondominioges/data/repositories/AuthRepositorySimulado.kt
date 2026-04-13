@@ -36,9 +36,15 @@ class AuthRepositorySimulado : AuthRepository {
             token = "token_falso_123",
             menu = listOf(
                 BotonMenu("1", "Inicio", "home", "dashboard", 1),
-                BotonMenu("2", "Pagar Renta", "payment", "pagos", 2),
-                BotonMenu("3", "Anuncios", "campaign", "anuncios", 3),
-                BotonMenu("4", "Mi Perfil", "person", "perfil", 4)
+                BotonMenu("2", "Pagos", "payment", "pagos", 2),
+                BotonMenu("3", "Reserva", "home", "reserva", 3),
+                BotonMenu("3", "Comunidcados", "home", "comunicados", 4)
+//                BotonMenu("4", "Mantenimiento", "person", "mantenimiento", 4),
+//                BotonMenu("4", "Mantenimiento", "person", "mantenimiento", 4),
+//                BotonMenu("3", "Configuracion", "campaign", "configuracion", 3),
+//                BotonMenu("4", "Mantenimiento", "person", "mantenimiento", 4),
+//                BotonMenu("5", "Validacion", "home", "validacion", 3),
+
             )
         )
     }

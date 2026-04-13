@@ -1,5 +1,6 @@
 package com.appcondominio.appcondominioges.presentation.screens
 
+import android.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.appcondominio.appcondominioges.data.repositories.AuthRepositorySimulado
@@ -48,9 +50,8 @@ fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(40.dp, 120.dp,40.dp, 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Logo
             Surface(
@@ -71,7 +72,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "App Condominio",
+                text = "CondominioGestión",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -109,13 +110,18 @@ fun LoginScreen(
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
-                        label = { Text("Email") },
-                        placeholder = { Text("ejemplo@correo.com") },
+                        label = { Text("Usuario") },
+                        placeholder = { Text("ejemplo: inquilino") },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
                         leadingIcon = {
                             Icon(Icons.Default.Email, contentDescription = null)
-                        }
+                        },
+                        colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = Color.Black, //texto cuando escribes
+                                unfocusedTextColor = Color.DarkGray,  //texto cuando no está seleccionado
+
+                        )
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -129,7 +135,12 @@ fun LoginScreen(
                         visualTransformation = PasswordVisualTransformation(),
                         leadingIcon = {
                             Icon(Icons.Default.Lock, contentDescription = null)
-                        }
+                        },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Color.Black, //texto cuando escribes
+                            unfocusedTextColor = Color.DarkGray,  //texto cuando no está seleccionado
+
+                        )
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -166,13 +177,16 @@ fun LoginScreen(
                         enabled = !isLoading,
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF1A237E)
+                            containerColor = Color(0xFF1A237E),
+                            disabledContainerColor = Color(0xFF1A237E),
+                            disabledContentColor = Color.White
                         )
                     ) {
                         if (isLoading) {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(24.dp),
-                                color = Color.White
+                                color = Color.White,
+                                strokeWidth = 2.dp
                             )
                         } else {
                             Text("Ingresar", fontSize = 16.sp)
@@ -182,4 +196,11 @@ fun LoginScreen(
             }
         }
     }
+}
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(onLoginExitoso = { usuario ->
+        println("Login simulado para: ${usuario.nombre}")
+    })
 }
