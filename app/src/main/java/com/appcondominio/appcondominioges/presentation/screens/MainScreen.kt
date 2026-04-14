@@ -1,5 +1,7 @@
 package com.appcondominio.appcondominioges.presentation.screens
 
+import android.R
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -10,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,28 +45,47 @@ fun MainScreen(
     val navController = rememberNavController()
     val menuItems = usuario.menu.sortedBy { it.orden }
 
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+    val tituloEncabezado = obtenerTituloPantalla(currentRoute)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color.White,
+                        Color(0xFF283593)
+                    )
+                )
+            )
+    ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Column(
-                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
-                    ) {
-                        Text("Gestión")
-                        Text(
-                            text = "${usuario.rol.uppercase()} | Depto ${usuario.departamento}",
-                            fontSize = 12.sp
-                        )
+                    Text(
+                        text = tituloEncabezado,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                },
+                navigationIcon = {
+                    Log.d("logout", "=== iniciando logout ===")
+                    IconButton({ navController.navigate(Destinos.Perfil.route) }) {
+                        Icon(Icons.Default.Person, "Perfil", tint = Color.Black)
                     }
                 },
                 actions = {
-                    IconButton(onClick = onCerrarSesion) {
-                        Icon(Icons.Default.Home, contentDescription = "Cerrar Sesión")
+                    IconButton(onCerrarSesion) {
+                        Icon(Icons.Default.Home,"Cerrar Sesion", tint = Color.Black)
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,                    titleContentColor = Color.Black,
+                    navigationIconContentColor = Color.Black,
+                    actionIconContentColor = Color.Black
                 )
             )
         },
@@ -91,23 +113,22 @@ fun MainScreen(
                         },
                         label = { Text(item.titulo, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 12.sp)    },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedTextColor = Color.Black,          // Color cuando está seleccionado
-                            unselectedTextColor = Color.LightGray,    // Color cuando no está seleccionado
-                            indicatorColor = Color(0xFF3F51B5)        // Color de la "burbuja" de selección
+                            selectedTextColor = Color.Black,
+                            unselectedTextColor = Color.LightGray,
+                            indicatorColor = Color(0xFF3F51B5)
                         )
                     )
                 }
             }
-        }
+        },
+        containerColor = Color.Transparent
+
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues).background(
-            Brush .verticalGradient(
-                colors = listOf(
-                    Color.White,
-                    Color(0xFF283593)
-                )
-            )
-        )) {
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
             NavHost(
                 navController = navController,
                 startDestination = menuItems.first().ruta
@@ -128,23 +149,32 @@ fun MainScreen(
                 composable(Destinos.Validacion.route) {
                     ValidacionScreen(usuario)
                 }
-                composable(Destinos.Perfil.route) {
-                    Text("Pantalla de Perfil")
-                }
                 composable(Destinos.Reservas.route) {
                     ReservasScreen(usuario)
                 }
                 composable(Destinos.Comunicados.route) {
                     ComunicadosScreen(usuario)
                 }
-                composable(Destinos.Reportes.route) {
-                    Text("Pantalla de Reportes")
+                composable(Destinos.Perfil.route) {
+                    PerfilScreen(usuario)
                 }
-                composable(Destinos.Caja.route) {
-                    Text("Pantalla de Caja Chica")
                 }
             }
         }
+    }
+}
+
+fun obtenerTituloPantalla(route: String?): String {
+    return when (route) {
+        Destinos.Dashboard.route -> "Inicio"
+        Destinos.Pagos.route -> "Pagos"
+        Destinos.Configuracion.route -> "Configuración"
+        Destinos.Mantenimiento.route -> "Mantenimiento"
+        Destinos.Validacion.route -> "Validación"
+        Destinos.Reservas.route -> "Reservas"
+        Destinos.Comunicados.route -> "Comunicados"
+        Destinos.Perfil.route -> "Mi Perfil"
+        else -> "Gestión"
     }
 }
 
@@ -160,6 +190,7 @@ fun obtenerIcono(nombre: String): ImageVector {
         "edit" -> Icons.Default.Edit
         "search" -> Icons.Default.Search
         "menu" -> Icons.Default.Menu
+
         // Los que no tengo, uso Home
         else -> Icons.Default.Home
     }

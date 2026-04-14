@@ -37,8 +37,7 @@ class AuthRepositorySimulado : AuthRepository {
             menu = listOf(
                 BotonMenu("1", "Inicio", "home", "dashboard", 1),
                 BotonMenu("2", "Pagos", "payment", "pagos", 2),
-                BotonMenu("3", "Reserva", "home", "reserva", 3),
-                BotonMenu("3", "Comunidcados", "home", "comunicados", 4)
+                BotonMenu("3", "Reserva", "home", "reserva", 3)
 //                BotonMenu("4", "Mantenimiento", "person", "mantenimiento", 4),
 //                BotonMenu("4", "Mantenimiento", "person", "mantenimiento", 4),
 //                BotonMenu("3", "Configuracion", "campaign", "configuracion", 3),
@@ -59,11 +58,9 @@ class AuthRepositorySimulado : AuthRepository {
             token = "token_falso_456",
             menu = listOf(
                 BotonMenu("1", "Inicio", "home", "dashboard", 1),
-                BotonMenu("2", "Mis Propiedades", "business", "propiedades", 2),
-                BotonMenu("3", "Cobros", "attach_money", "cobros", 3),
-                BotonMenu("4", "Reservas", "calendar", "reservas", 4),
-                BotonMenu("5", "Anuncios", "campaign", "anuncios", 5),
-                BotonMenu("6", "Mi Perfil", "person", "perfil", 6)
+                BotonMenu("2", "Pagos", "payment", "pagos", 2),
+                BotonMenu("3", "Reserva", "home", "reserva", 3),
+                BotonMenu("4", "Comunidcados", "home", "comunicados", 4)
             )
         )
     }
@@ -77,13 +74,10 @@ class AuthRepositorySimulado : AuthRepository {
             departamento = "PH",
             token = "token_falso_789",
             menu = listOf(
-                BotonMenu("1", "Dashboard", "home", "dashboard", 1),
-                BotonMenu("2", "Vecinos", "people", "vecinos", 2),
-                BotonMenu("3", "Anuncios", "campaign", "anuncios", 3),
-                BotonMenu("4", "Reservas", "calendar", "reservas", 4),
-                BotonMenu("5", "Reportes", "bar_chart", "reportes", 5),
-                BotonMenu("6", "Caja Chica", "account_balance", "caja", 6),
-                BotonMenu("7", "Mi Perfil", "person", "perfil", 7)
+                BotonMenu("1", "Inicio", "home", "dashboard", 1),
+                BotonMenu("2", "Pagos", "payment", "pagos", 2),
+                BotonMenu("3", "Reserva", "home", "reserva", 3),
+                BotonMenu("4", "Comunidcados", "home", "comunicados", 4)
             )
         )
     }
