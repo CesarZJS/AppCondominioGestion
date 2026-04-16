@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
@@ -32,7 +34,8 @@ fun PerfilScreen(usuario: Usuario = Usuario(
         BotonMenu("1", "Inicio", "home", "dashboard", 1),
         BotonMenu("1", "Inicio", "home", "dashboard", 1),
     )
-)) {
+), onCerrarSesion: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -88,10 +91,29 @@ fun PerfilScreen(usuario: Usuario = Usuario(
                 PerfilInfoRow("Email", usuario.email)
                 PerfilInfoRow("Departamento", usuario.departamento)
                 PerfilInfoRow("ID de usuario", usuario.id)
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Button(
+                    onClick = { onCerrarSesion() },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "Cerrar sesión"
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Cerrar Sesión")
+                }
+            }
             }
         }
     }
-}
 
 @Composable
 fun PerfilInfoRow(label: String, value: String) {
@@ -116,5 +138,6 @@ fun PerfilInfoRow(label: String, value: String) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PerfilScreenPreview() {
-    PerfilScreen()
+    PerfilScreen(onCerrarSesion = { })
 }
+

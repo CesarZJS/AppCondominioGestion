@@ -45,8 +45,10 @@ fun MainScreen(
     val navController = rememberNavController()
     val menuItems = usuario.menu.sortedBy { it.orden }
 
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
-    val tituloEncabezado = obtenerTituloPantalla(currentRoute)
+    val currentRoute by navController.currentBackStackEntryAsState()
+    val currentDestination = currentRoute?.destination?.route
+
+    val tituloEncabezado = obtenerTituloPantalla(currentDestination)
 
     Box(
         modifier = Modifier
@@ -60,104 +62,109 @@ fun MainScreen(
                 )
             )
     ) {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = tituloEncabezado,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                },
-                navigationIcon = {
-                    Log.d("logout", "=== iniciando logout ===")
-                    IconButton({ navController.navigate(Destinos.Perfil.route) }) {
-                        Icon(Icons.Default.Person, "Perfil", tint = Color.Black)
-                    }
-                },
-                actions = {
-                    IconButton(onCerrarSesion) {
-                        Icon(Icons.Default.Home,"Cerrar Sesion", tint = Color.Black)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,                    titleContentColor = Color.Black,
-                    navigationIconContentColor = Color.Black,
-                    actionIconContentColor = Color.Black
-                )
-            )
-        },
-        bottomBar = {
-            NavigationBar(
-                containerColor = Color.White,
-                contentColor = Color.White
-            ) {
-                menuItems.forEach { item ->
-                    val selected = navController.currentBackStackEntryAsState().value?.destination?.route == item.ruta
-
-                    NavigationBarItem(
-                        selected = selected,
-                        onClick = {
-                            navController.navigate(item.ruta) {
-                                popUpTo(navController.graph.startDestinationId)
-                                launchSingleTop = true
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = obtenerIcono(item.icono),
-                                contentDescription = item.titulo
-                            )
-                        },
-                        label = { Text(item.titulo, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 12.sp)    },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedTextColor = Color.Black,
-                            unselectedTextColor = Color.LightGray,
-                            indicatorColor = Color(0xFF3F51B5)
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            text = tituloEncabezado,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
                         )
+                    },
+                    navigationIcon = {
+                        Log.d("logout", "=== iniciando logout ===")
+                        IconButton({ navController.navigate(Destinos.Perfil.route) }) {
+                            Icon(Icons.Default.Person, "Perfil", tint = Color.Black)
+                        }
+                    },
+                    actions = {
+                        IconButton({ navController.navigate(Destinos.Notificaciones.route) }) {
+                            Icon(Icons.Default.Notifications , "Notificaciones", tint = Color.Black)
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        titleContentColor = Color.Black,
+                        navigationIconContentColor = Color.Black,
+                        actionIconContentColor = Color.Black
                     )
+                )
+            },
+            bottomBar = {
+                NavigationBar(
+                    containerColor = Color.White,
+                    contentColor = Color.White
+                ) {
+                    menuItems.forEach { item ->
+                        val selected = navController.currentBackStackEntryAsState().value?.destination?.route == item.ruta
+
+                        NavigationBarItem(
+                            selected = selected,
+                            onClick = {
+                                navController.navigate(item.ruta) {
+                                    launchSingleTop = true
+                                    restoreState = true
+                                    if (currentDestination != item.ruta) {
+                                    }
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = obtenerIcono(item.icono),
+                                    contentDescription = item.titulo
+                                )
+                            },
+                            label = { Text(item.titulo, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 12.sp)    },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedTextColor = Color.Black,
+                                unselectedTextColor = Color.LightGray,
+                                indicatorColor = Color(0xFF3F51B5)
+                            )
+                        )
+                    }
                 }
-            }
-        },
-        containerColor = Color.Transparent
+            },
+            containerColor = Color.Transparent
 
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = menuItems.first().ruta
-
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
             ) {
-                composable(Destinos.Dashboard.route) {
-                    DashboardScreen(usuario)
-                }
-                composable(Destinos.Pagos.route) {
-                    PagosScreen(usuario)
-                }
-                composable(Destinos.Configuracion.route) {
-                    ConfiguracionScreen(usuario)
-                }
-                composable(Destinos.Mantenimiento.route) {
-                    MantenimientoScreen(usuario)
-                }
-                composable(Destinos.Validacion.route) {
-                    ValidacionScreen(usuario)
-                }
-                composable(Destinos.Reservas.route) {
-                    ReservasScreen(usuario)
-                }
-                composable(Destinos.Comunicados.route) {
-                    ComunicadosScreen(usuario)
-                }
-                composable(Destinos.Perfil.route) {
-                    PerfilScreen(usuario)
-                }
+                NavHost(
+                    navController = navController,
+                    startDestination = Destinos.Dashboard.route
+                ) {
+                    composable(Destinos.Dashboard.route) {
+                        DashboardScreen(usuario)
+                    }
+                    composable(Destinos.Pagos.route) {
+                        PagosScreen(usuario)
+                    }
+                    composable(Destinos.Configuracion.route) {
+                        ConfiguracionScreen(usuario)
+                    }
+                    composable(Destinos.Mantenimiento.route) {
+                        MantenimientoScreen(usuario)
+                    }
+                    composable(Destinos.Validacion.route) {
+                        ValidacionScreen(usuario)
+                    }
+                    composable(Destinos.Reservas.route) {
+                        ReservasScreen(usuario)
+                    }
+                    composable(Destinos.Comunicados.route) {
+                        ComunicadosScreen(usuario)
+                    }
+                    composable(Destinos.Perfil.route) {
+                        PerfilScreen(usuario,onCerrarSesion)
+                    }
+                    composable(Destinos.Notificaciones.route) {
+                        NotificacionesScreen(usuario)
+                    }
                 }
             }
         }
@@ -174,6 +181,8 @@ fun obtenerTituloPantalla(route: String?): String {
         Destinos.Reservas.route -> "Reservas"
         Destinos.Comunicados.route -> "Comunicados"
         Destinos.Perfil.route -> "Mi Perfil"
+        Destinos.Notificaciones.route -> "Notificaciones"
+
         else -> "Gestión"
     }
 }
@@ -190,8 +199,6 @@ fun obtenerIcono(nombre: String): ImageVector {
         "edit" -> Icons.Default.Edit
         "search" -> Icons.Default.Search
         "menu" -> Icons.Default.Menu
-
-        // Los que no tengo, uso Home
         else -> Icons.Default.Home
     }
 }

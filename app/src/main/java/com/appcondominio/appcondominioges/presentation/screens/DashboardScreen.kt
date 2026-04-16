@@ -23,6 +23,9 @@ import com.appcondominio.appcondominioges.domain.viewmodels.DashboardUiState
 import com.appcondominio.appcondominioges.domain.viewmodels.DashboardViewModel
 import com.appcondominio.appcondominioges.domain.usecases.DashboardViewModelFactory
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+
 @Composable
 fun DashboardScreen(
     usuario: Usuario = Usuario(
@@ -80,6 +83,7 @@ fun DashboardContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -93,10 +97,12 @@ fun DashboardContent(
                 "cobro" -> TarjetaCobro(seccion)
                 "estadistica" -> TarjetaEstadisticas(seccion)
                 "accion" -> TarjetaAccion(seccion)
+                "reserva" -> TarjetaReserva(seccion)
             }
         }
     }
 }
+
 
 @Composable
 fun TarjetaBienvenida(nombre: String, rol: String, departamento: String) {
@@ -106,12 +112,13 @@ fun TarjetaBienvenida(nombre: String, rol: String, departamento: String) {
         colors = CardDefaults.cardColors(containerColor = Color(0xFF1A237E))
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
-            Text("¡Bienvenido!", fontSize = 14.sp, color = Color.White.copy(alpha = 0.8f))
+            Text("¡Bienvenido!", fontSize = 16.sp, color = Color.White.copy(alpha = 0.8f))
             Text(nombre, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White)
             Text("${rol.uppercase()} | Depto $departamento", fontSize = 14.sp, color = Color.White.copy(alpha = 0.8f))
         }
     }
 }
+
 
 @Composable
 fun TarjetaPago(seccion: SeccionDashboard) {
@@ -286,6 +293,41 @@ fun TarjetaAccion(seccion: SeccionDashboard) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(it.texto, color = Color.White)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TarjetaReserva(seccion: SeccionDashboard) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp)
+    ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Icon(
+                    Icons.Default.Warning,
+                    null
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(seccion.titulo, fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            seccion.datos.forEach { (key, value) ->
+                Text("$key: $value")
+            }
+
+            seccion.boton?.let {
+                Spacer(modifier = Modifier.height(12.dp))
+                Button(onClick = {}) {
+                    Text(it.texto)
                 }
             }
         }

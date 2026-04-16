@@ -13,4 +13,6 @@ sealed class Destinos(val route: String, val titulo: String) {
 
     object Comunicados : Destinos("comunicados", "Comunicados")
     object Perfil : Destinos("perfil", "Perfil")
+
+    object Notificaciones : Destinos("notificaciones", "Notificaciones")
 }

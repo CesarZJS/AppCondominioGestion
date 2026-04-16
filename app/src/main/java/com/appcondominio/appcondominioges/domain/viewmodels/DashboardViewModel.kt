@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.appcondominio.appcondominioges.domain.models.DashboardData
 import com.appcondominio.appcondominioges.domain.models.Usuario
 import com.appcondominio.appcondominioges.domain.usecases.GetDashboardUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,6 +20,8 @@ class DashboardViewModel(
     fun loadDashboard(usuario: Usuario) {
         viewModelScope.launch {
             _uiState.value = DashboardUiState.Loading
+            delay(300)
+
             try {
                 val data = getDashboardUseCase(usuario)
                 _uiState.value = DashboardUiState.Success(data)

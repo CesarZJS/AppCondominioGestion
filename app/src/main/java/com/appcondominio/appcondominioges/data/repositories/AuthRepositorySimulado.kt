@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 class AuthRepositorySimulado : AuthRepository {
 
     override suspend fun login(rol: String, password: String): Result<Usuario> {
-        delay(1500) // Simular tiempo de carga
+        delay(1500)
 
         return when {
             rol == "inquilino" && password == "123" -> {

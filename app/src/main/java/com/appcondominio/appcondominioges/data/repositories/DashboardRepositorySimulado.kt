@@ -16,26 +16,66 @@ class DashboardRepositorySimulado : DashboardRepository {
 
     private fun getInquilinoDashboard(usuario: Usuario): DashboardData {
         return DashboardData(
-            bienvenida = "¡Bienvenido!",
             nombre = usuario.nombre,
             rol = usuario.rol,
             departamento = usuario.departamento,
             secciones = listOf(
+
+                // 💰 ESTADO DE PAGO (principal)
                 SeccionDashboard(
                     tipo = "pago",
                     titulo = "Estado de Pago",
-                    icono = "payment",
                     datos = mapOf(
                         "Mes" to "Abril 2024",
                         "Monto" to "S/ 450.00",
-                        "Estado" to "Pendiente"
+                        "Estado" to "Pendiente",
+                        "Vence" to "30 Abril",
+                        "Último pago" to "01 Marzo"
                     ),
                     boton = BotonAccion("Pagar Ahora", "pagos")
                 ),
+
+                // 📊 RESUMEN (para mini cards)
+                SeccionDashboard(
+                    tipo = "estadistica",
+                    titulo = "Resumen",
+                    datos = mapOf(
+                        "Pagado este mes" to "S/ 300",
+                        "Multas" to "1",
+                        "Pendientes" to "2",
+                        "Total deuda" to "S/ 450"
+                    ),
+                    boton = null
+                ),
+
+                // 📅 RESERVAS
+                SeccionDashboard(
+                    tipo = "reserva",
+                    titulo = "Mis Reservas",
+                    datos = mapOf(
+                        "Área" to "Parrilla",
+                        "Fecha" to "20 Abril",
+                        "Hora" to "6:00 PM",
+                        "Estado" to "Confirmado"
+                    ),
+                    boton = BotonAccion("Reservar", "reservas")
+                ),
+
+                // ⚠️ MULTAS
+                SeccionDashboard(
+                    tipo = "accion",
+                    titulo = "Multas",
+                    datos = mapOf(
+                        "1" to "Ruido excesivo - S/ 50",
+                        "2" to "Estacionamiento indebido - S/ 30"
+                    ),
+                    boton = BotonAccion("Ver multas", "multas")
+                ),
+
+                // 📢 ANUNCIO
                 SeccionDashboard(
                     tipo = "anuncio",
                     titulo = "Último Anuncio",
-                    icono = "campaign",
                     datos = mapOf(
                         "titulo" to "Reunión de condominio",
                         "fecha" to "Sábado 20 de abril - 10:00 AM"
@@ -48,7 +88,6 @@ class DashboardRepositorySimulado : DashboardRepository {
 
     private fun getPropietarioDashboard(usuario: Usuario): DashboardData {
         return DashboardData(
-            bienvenida = "¡Bienvenido!",
             nombre = usuario.nombre,
             rol = usuario.rol,
             departamento = usuario.departamento,
@@ -56,7 +95,6 @@ class DashboardRepositorySimulado : DashboardRepository {
                 SeccionDashboard(
                     tipo = "propiedad",
                     titulo = "Mis Propiedades",
-                    icono = "business",
                     datos = mapOf(
                         "Principal" to "Depto ${usuario.departamento}",
                         "Propiedad 2" to "Depto 401",
@@ -67,7 +105,6 @@ class DashboardRepositorySimulado : DashboardRepository {
                 SeccionDashboard(
                     tipo = "cobro",
                     titulo = "Resumen de Cobros",
-                    icono = "attach_money",
                     datos = mapOf(
                         "Total a cobrar" to "S/ 1,200",
                         "Cobrado" to "S/ 800",
@@ -81,7 +118,6 @@ class DashboardRepositorySimulado : DashboardRepository {
 
     private fun getPresidenteDashboard(usuario: Usuario): DashboardData {
         return DashboardData(
-            bienvenida = "Panel de Control",
             nombre = usuario.nombre,
             rol = usuario.rol,
             departamento = usuario.departamento,
@@ -89,7 +125,6 @@ class DashboardRepositorySimulado : DashboardRepository {
                 SeccionDashboard(
                     tipo = "estadistica",
                     titulo = "Estadísticas",
-                    icono = "bar_chart",
                     datos = mapOf(
                         "Vecinos" to "45",
                         "Caja" to "S/15K",
@@ -100,7 +135,6 @@ class DashboardRepositorySimulado : DashboardRepository {
                 SeccionDashboard(
                     tipo = "accion",
                     titulo = "Acciones Pendientes",
-                    icono = "warning",
                     datos = mapOf(
                         "item1" to "5 reservas por aprobar",
                         "item2" to "3 reportes de mantenimiento",
